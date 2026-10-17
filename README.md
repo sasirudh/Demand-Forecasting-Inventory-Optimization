@@ -45,6 +45,16 @@ Out-of-sample, 30-day window, all stores pooled:
 | GRU | 5,414.56 | overfit; small tabular dataset |
 | SARIMAX | n/a (single store) | produces near-zero and negative forecasts on zero-sales days |
 
+
+| Model | RMSE ($) | vs. Naive Baseline | Notes |
+|---|---|---|---|
+| Seasonal Naive (t-7 weekday baseline) | 5,180.40 | — | same weekday previous week |
+| GRU (PyTorch, 14-day seq) | 5,414.56 | +4.5% | overfit on ~2.7k tabular training rows |
+| LightGBM (default) | 3,994.83 | -22.9% | before hyperparameter tuning |
+| **LightGBM (tuned)** | **3,856.84** | **-25.5%** | 81-candidate grid search |
+| **XGBoost (tuned)** | **3,851.92** | **-25.6%** | statistically indistinguishable from LightGBM |
+| SARIMAX (exog holiday/promo) | n/a (single store) | — | produces near-zero/negative forecasts on zero-sales days |
+
 <!-- TODO: add a naive baseline row (store mean / same weekday last week) once run, and report all models against it. -->
 
 ![Model comparison for one store](images/model_comparison.png)
